@@ -6,14 +6,16 @@
 //   node eulerian.js [options]
 //
 // Options:
-//   --players  "Alice,Bob,Carol,Dave,Eve,Frank"   comma-separated, quoted
-//   --start    "Eric L"                           starting player (must be in players)
-//   --date     2025-04-01                         start date (YYYY-MM-DD)
+//   --players   "Alice,Bob,Carol,Dave"   comma-separated, quoted
+//   --start     "Eric L"                starting player (must be in players)
+//   --date      2025-04-01              start date (YYYY-MM-DD)
+//   --frequency 14                      days between turns (default: 7)
 //
 // Examples:
 //   node eulerian.js
 //   node eulerian.js --date 2025-04-01
-//   node eulerian.js --start "Eric T" --date 2025-06-01
+//   node eulerian.js --date 2025-04-01 --frequency 14
+//   node eulerian.js --start "Eric T" --date 2025-06-01 --frequency 7
 //   node eulerian.js --players "Alice,Bob,Carol,Dave" --start "Alice" --date 2025-01-01
 
 // ─── Parse args ───────────────────────────────────────────────────────────────
@@ -40,12 +42,18 @@ const players = getArg("--players")
 
 const startPlayer = getArg("--start") ?? players[0];
 const dateArg = getArg("--date") ?? null;
+const frequency = parseInt(getArg("--frequency") ?? "7", 10);
 
 if (!players.includes(startPlayer)) {
   console.error(
     `Error: start player "${startPlayer}" is not in the players list.`,
   );
   console.error(`Players: ${players.join(", ")}`);
+  process.exit(1);
+}
+
+if (isNaN(frequency) || frequency < 1) {
+  console.error("Error: --frequency must be a positive integer.");
   process.exit(1);
 }
 
@@ -56,9 +64,9 @@ function parseDate(str) {
   return new Date(y, m - 1, d);
 }
 
-function addWeeks(date, n) {
+function addDays(date, n) {
   const d = new Date(date);
-  d.setDate(d.getDate() + n * 7);
+  d.setDate(d.getDate() + n);
   return d;
 }
 
@@ -147,7 +155,10 @@ if (!best) {
 
 console.log(`\nEulerian circuit — ${N} players, ${N * (N - 1)} turns`);
 console.log(`Starting player: ${startPlayer}`);
-if (startDate) console.log(`Start date: ${formatDate(startDate)}`);
+if (startDate) console.log(`Start date:      ${formatDate(startDate)}`);
+console.log(
+  `Frequency:       every ${frequency} day${frequency === 1 ? "" : "s"}`,
+);
 console.log();
 
 const pad = Math.max(...players.map((p) => p.length));
@@ -156,7 +167,9 @@ for (let i = 0; i < best.length - 1; i++) {
   const aba = best[i] === best[i + 2] ? "  ⚠ ABA" : "";
   const from = best[i].padEnd(pad);
   const to = best[i + 1].padEnd(pad);
-  const date = startDate ? `  ${formatDate(addWeeks(startDate, i))}` : "";
+  const date = startDate
+    ? `  ${formatDate(addDays(startDate, i * frequency))}`
+    : "";
   console.log(
     `  Turn ${String(i + 1).padStart(2, "0")}:${date}  ${from} -> ${to}${aba}`,
   );

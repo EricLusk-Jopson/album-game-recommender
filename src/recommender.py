@@ -6,14 +6,16 @@
 #   python eulerian.py [options]
 #
 # Options:
-#   --players  "Alice,Bob,Carol,Dave,Eve,Frank"   comma-separated, quoted
-#   --start    "Eric L"                           starting player (must be in players)
-#   --date     2025-04-01                         start date (YYYY-MM-DD)
+#   --players   "Alice,Bob,Carol,Dave"   comma-separated, quoted
+#   --start     "Eric L"                starting player (must be in players)
+#   --date      2025-04-01              start date (YYYY-MM-DD)
+#   --frequency 14                      days between turns (default: 7)
 #
 # Examples:
 #   python eulerian.py
 #   python eulerian.py --date 2025-04-01
-#   python eulerian.py --start "Eric T" --date 2025-06-01
+#   python eulerian.py --date 2025-04-01 --frequency 14
+#   python eulerian.py --start "Eric T" --date 2025-06-01 --frequency 7
 #   python eulerian.py --players "Alice,Bob,Carol,Dave" --start "Alice" --date 2025-01-01
 
 import sys
@@ -24,25 +26,31 @@ from datetime import date, timedelta
 # ─── Parse args ───────────────────────────────────────────────────────────────
 
 parser = argparse.ArgumentParser(description='Eulerian circuit scheduler')
-parser.add_argument('--players', type=str, default=None,
+parser.add_argument('--players',   type=str, default=None,
                     help='Comma-separated player names e.g. "Alice,Bob,Carol"')
-parser.add_argument('--start', type=str, default=None,
+parser.add_argument('--start',     type=str, default=None,
                     help='Starting player name')
-parser.add_argument('--date', type=str, default=None,
+parser.add_argument('--date',      type=str, default=None,
                     help='Start date in YYYY-MM-DD format')
+parser.add_argument('--frequency', type=int, default=7,
+                    help='Days between turns (default: 7)')
 args = parser.parse_args()
 
 DEFAULT_PLAYERS = ['Eric L', 'Holly', 'Eric T', 'Akshay', 'Micheal', 'Colm']
 
-players = [p.strip() for p in args.players.split(',')] if args.players else DEFAULT_PLAYERS
+players      = [p.strip() for p in args.players.split(',')] if args.players else DEFAULT_PLAYERS
 start_player = args.start if args.start else players[0]
+frequency    = args.frequency
+start_date   = date.fromisoformat(args.date) if args.date else None
 
 if start_player not in players:
     print(f'Error: start player "{start_player}" is not in the players list.')
     print(f'Players: {", ".join(players)}')
     sys.exit(1)
 
-start_date = date.fromisoformat(args.date) if args.date else None
+if frequency < 1:
+    print('Error: --frequency must be a positive integer.')
+    sys.exit(1)
 
 # ─── Eulerian circuit ─────────────────────────────────────────────────────────
 
@@ -101,10 +109,13 @@ if best is None:
 
 # ─── Print ────────────────────────────────────────────────────────────────────
 
+freq_label = f'every {frequency} day{"" if frequency == 1 else "s"}'
+
 print(f'\nEulerian circuit — {N} players, {N * (N-1)} turns')
 print(f'Starting player: {start_player}')
 if start_date:
-    print(f'Start date: {start_date.strftime("%a, %d %b %Y")}')
+    print(f'Start date:      {start_date.strftime("%a, %d %b %Y")}')
+print(f'Frequency:       {freq_label}')
 print()
 
 pad = max(len(p) for p in players)
@@ -113,7 +124,7 @@ for i in range(len(best) - 1):
     aba    = '  ⚠ ABA' if i + 2 < len(best) and best[i] == best[i + 2] else ''
     frm    = best[i].ljust(pad)
     to     = best[i + 1].ljust(pad)
-    dt_str = f'  {(start_date + timedelta(weeks=i)).strftime("%a, %d %b %Y")}' if start_date else ''
+    dt_str = f'  {(start_date + timedelta(days=i * frequency)).strftime("%a, %d %b %Y")}' if start_date else ''
     print(f'  Turn {i+1:02d}:{dt_str}  {frm} -> {to}{aba}')
 
 print(f'\n  Returns to: {best[-1]}')
