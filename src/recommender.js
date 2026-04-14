@@ -3,20 +3,20 @@
 // Eulerian circuit through the complete directed graph K_N.
 //
 // Usage:
-//   node eulerian.js [options]
+//   node recommender.js [options]
 //
 // Options:
 //   --players   "Alice,Bob,Carol,Dave"   comma-separated, quoted
 //   --start     "Eric L"                starting player (must be in players)
-//   --date      2025-04-01              start date (YYYY-MM-DD)
-//   --frequency 14                      days between turns (default: 7)
+//   --date      2025-04-01              start date (YYYY-MM-DD); omit for numbered-rounds mode
+//   --frequency 14                      days between turns (default: 7, only used with --date)
 //
 // Examples:
-//   node eulerian.js
-//   node eulerian.js --date 2025-04-01
-//   node eulerian.js --date 2025-04-01 --frequency 14
-//   node eulerian.js --start "Eric T" --date 2025-06-01 --frequency 7
-//   node eulerian.js --players "Alice,Bob,Carol,Dave" --start "Alice" --date 2025-01-01
+//   node recommender.js                                              ← numbered rounds
+//   node recommender.js --date 2025-04-01                           ← dated turns, weekly
+//   node recommender.js --date 2025-04-01 --frequency 14            ← dated turns, fortnightly
+//   node recommender.js --start "Eric T" --date 2025-06-01 --frequency 7
+//   node recommender.js --players "Alice,Bob,Carol,Dave" --start "Alice" --date 2025-01-01
 
 // ─── Parse args ───────────────────────────────────────────────────────────────
 
@@ -155,10 +155,10 @@ if (!best) {
 
 console.log(`\nEulerian circuit — ${N} players, ${N * (N - 1)} turns`);
 console.log(`Starting player: ${startPlayer}`);
-if (startDate) console.log(`Start date:      ${formatDate(startDate)}`);
-console.log(
-  `Frequency:       every ${frequency} day${frequency === 1 ? "" : "s"}`,
-);
+if (startDate) {
+  console.log(`Start date:      ${formatDate(startDate)}`);
+  console.log(`Frequency:       every ${frequency} day${frequency === 1 ? "" : "s"}`);
+}
 console.log();
 
 const pad = Math.max(...players.map((p) => p.length));

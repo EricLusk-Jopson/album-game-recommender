@@ -3,20 +3,20 @@
 # Eulerian circuit through the complete directed graph K_N.
 #
 # Usage:
-#   python eulerian.py [options]
+#   python recommender.py [options]
 #
 # Options:
 #   --players   "Alice,Bob,Carol,Dave"   comma-separated, quoted
 #   --start     "Eric L"                starting player (must be in players)
-#   --date      2025-04-01              start date (YYYY-MM-DD)
-#   --frequency 14                      days between turns (default: 7)
+#   --date      2025-04-01              start date (YYYY-MM-DD); omit for numbered-rounds mode
+#   --frequency 14                      days between turns (default: 7, only used with --date)
 #
 # Examples:
-#   python eulerian.py
-#   python eulerian.py --date 2025-04-01
-#   python eulerian.py --date 2025-04-01 --frequency 14
-#   python eulerian.py --start "Eric T" --date 2025-06-01 --frequency 7
-#   python eulerian.py --players "Alice,Bob,Carol,Dave" --start "Alice" --date 2025-01-01
+#   python recommender.py                                              ← numbered rounds
+#   python recommender.py --date 2025-04-01                           ← dated turns, weekly
+#   python recommender.py --date 2025-04-01 --frequency 14            ← dated turns, fortnightly
+#   python recommender.py --start "Eric T" --date 2025-06-01 --frequency 7
+#   python recommender.py --players "Alice,Bob,Carol,Dave" --start "Alice" --date 2025-01-01
 
 import sys
 import random
@@ -109,13 +109,12 @@ if best is None:
 
 # ─── Print ────────────────────────────────────────────────────────────────────
 
-freq_label = f'every {frequency} day{"" if frequency == 1 else "s"}'
-
 print(f'\nEulerian circuit — {N} players, {N * (N-1)} turns')
 print(f'Starting player: {start_player}')
 if start_date:
+    freq_label = f'every {frequency} day{"" if frequency == 1 else "s"}'
     print(f'Start date:      {start_date.strftime("%a, %d %b %Y")}')
-print(f'Frequency:       {freq_label}')
+    print(f'Frequency:       {freq_label}')
 print()
 
 pad = max(len(p) for p in players)
