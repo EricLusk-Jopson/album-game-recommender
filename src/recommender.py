@@ -36,7 +36,7 @@ parser.add_argument('--frequency', type=int, default=7,
                     help='Days between turns (default: 7)')
 args = parser.parse_args()
 
-DEFAULT_PLAYERS = ['Eric L', 'Holly', 'Eric T', 'Akshay', 'Micheal', 'Colm']
+DEFAULT_PLAYERS = ['Eric L', 'Holly', 'Eric T', 'Akshay', 'Michael', 'Colm']
 
 players      = [p.strip() for p in args.players.split(',')] if args.players else DEFAULT_PLAYERS
 start_player = args.start if args.start else players[0]

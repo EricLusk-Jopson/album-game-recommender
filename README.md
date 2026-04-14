@@ -41,7 +41,7 @@ Both scripts accept the same four optional flags.
 
 | Flag          | Description                                                    | Default                                        |
 | ------------- | -------------------------------------------------------------- | ---------------------------------------------- |
-| `--players`   | Comma-separated list of participant names, quoted              | `Eric L, Holly, Eric T, Akshay, Micheal, Colm` |
+| `--players`   | Comma-separated list of participant names, quoted              | `Eric L, Holly, Eric T, Akshay, Michael, Colm` |
 | `--start`     | Name of the starting participant (must be in the players list) | First player in the list                       |
 | `--date`      | Start date in `YYYY-MM-DD` format                              | No dates printed                               |
 | `--frequency` | Days between turns                                             | `7`                                            |
@@ -97,14 +97,14 @@ Frequency:       every 7 days
   Turn 03:  Tue, 15 Apr 2025  Akshay   -> Eric T
   Turn 04:  Tue, 22 Apr 2025  Eric T   -> Colm
   ...
-  Turn 30:  Tue, 28 Oct 2025  Micheal  -> Eric L
+  Turn 30:  Tue, 28 Oct 2025  Michael  -> Eric L
 
   Returns to: Eric L
   ABA violations: 0
 
 Coverage matrix (turn# when row->col occurs):
 
-              Eric L  Holly   Eric T  Akshay  Micheal  Colm
+              Eric L  Holly   Eric T  Akshay  Michael  Colm
 Eric L      [  -       1       8      15      22       27  ]
 Holly       [  6       -       2       9      16       23  ]
 ...

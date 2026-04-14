@@ -30,7 +30,7 @@ const DEFAULT_PLAYERS = [
   "Holly",
   "Eric T",
   "Akshay",
-  "Micheal",
+  "Michael",
   "Colm",
 ];
 
@@ -157,7 +157,9 @@ console.log(`\nEulerian circuit — ${N} players, ${N * (N - 1)} turns`);
 console.log(`Starting player: ${startPlayer}`);
 if (startDate) {
   console.log(`Start date:      ${formatDate(startDate)}`);
-  console.log(`Frequency:       every ${frequency} day${frequency === 1 ? "" : "s"}`);
+  console.log(
+    `Frequency:       every ${frequency} day${frequency === 1 ? "" : "s"}`,
+  );
 }
 console.log();
 
