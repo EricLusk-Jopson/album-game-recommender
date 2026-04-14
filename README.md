@@ -50,38 +50,38 @@ Both scripts accept the same four optional flags.
 
 ```bash
 # Run with defaults
-node src/eulerian.js
+node src/recommender.js
 
 # With a start date
-node src/eulerian.js --date 2025-04-01
+node src/recommender.js --date 2025-04-01
 
 # Fortnightly cadence
-node src/eulerian.js --date 2025-04-01 --frequency 14
+node src/recommender.js --date 2025-04-01 --frequency 14
 
 # With a custom starting player
-node src/eulerian.js --start "Eric T" --date 2025-04-01 --frequency 7
+node src/recommender.js --start "Eric T" --date 2025-04-01 --frequency 7
 
 # With a fully custom group
-node src/eulerian.js --players "Alice,Bob,Carol,Dave" --start "Alice" --date 2025-01-01
+node src/recommender.js --players "Alice,Bob,Carol,Dave" --start "Alice" --date 2025-01-01
 ```
 
 ### Python
 
 ```bash
 # Run with defaults
-python src/eulerian.py
+python src/recommender.py
 
 # With a start date
-python src/eulerian.py --date 2025-04-01
+python src/recommender.py --date 2025-04-01
 
 # Fortnightly cadence
-python src/eulerian.py --date 2025-04-01 --frequency 14
+python src/recommender.py --date 2025-04-01 --frequency 14
 
 # With a custom starting player
-python src/eulerian.py --start "Eric T" --date 2025-04-01 --frequency 7
+python src/recommender.py --start "Eric T" --date 2025-04-01 --frequency 7
 
 # With a fully custom group
-python src/eulerian.py --players "Alice,Bob,Carol,Dave" --start "Alice" --date 2025-01-01
+python src/recommender.py --players "Alice,Bob,Carol,Dave" --start "Alice" --date 2025-01-01
 ```
 
 ## Example output
